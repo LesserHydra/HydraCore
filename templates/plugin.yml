@@ -1,0 +1,4 @@
+name: HydraCore
+main: @mainClass@
+version: @version@
+author: Justin Lawen

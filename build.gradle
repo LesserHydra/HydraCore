@@ -1,0 +1,61 @@
+plugins {
+  id 'org.ajoberstar.grgit' version '1.4.2'
+}
+
+apply plugin: 'java'
+apply plugin: 'maven-publish'
+
+import org.ajoberstar.grgit.*
+import org.apache.tools.ant.filters.ReplaceTokens
+
+group = 'com.lesserhydra'
+version = generateVersion('1.0.0')
+String pluginMain = group + '.hydracore.HydraCore'
+
+repositories {
+  mavenLocal()
+  mavenCentral()
+  maven {
+    url "https://hub.spigotmc.org/nexus/content/repositories/snapshots/"
+  }
+}
+
+dependencies {
+  compile 'org.jetbrains:annotations:15.0'
+  compile 'org.bukkit:craftbukkit:1.12.2-R0.1-SNAPSHOT'
+}
+
+task sourceJar(type: Jar) {
+  from sourceSets.main.allJava
+}
+
+publishing {
+  publications {
+    mavenJava(MavenPublication) {
+      from components.java
+      artifact sourceJar {
+        classifier "sources"
+      }
+    }
+  }
+}
+
+task install(dependsOn: publishToMavenLocal)
+
+//Generate plugin.yml
+processResources {
+  inputs.file 'build.gradle' //So it's regenerated if the version changes
+  from 'templates/plugin.yml'
+  filter(ReplaceTokens, tokens: [
+          version:		version,
+          mainClass:  pluginMain,
+  ])
+}
+
+static String generateVersion(workingVersion) {
+  Grgit repo = Grgit.open()
+  Tag currentTag = repo.tag.list().find {it.commit == repo.head()}
+
+  if (currentTag == null) return workingVersion + '-SNAPSHOT'
+  return currentTag.getName()
+}
