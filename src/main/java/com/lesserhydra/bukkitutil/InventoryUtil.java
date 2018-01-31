@@ -55,20 +55,16 @@ public class InventoryUtil {
     return result == null ? def : result;
   }
   
-  public static ItemStack setCustomTag(ItemStack item, String key, String value) {
-    MirrorItemStack craftItem = getMirrorItemStack(item);
-    NbtCompound itemTag = getItemTag(craftItem, true);
+  public static void setCustomTag(MirrorItemStack item, String key, String value) {
+    NbtCompound itemTag = getItemTag(item, true);
     itemTag.set(key, value);
-    return craftItem;
   }
   
-  public static ItemStack removeCustomTag(ItemStack item, String key) {
-    MirrorItemStack craftItem = getMirrorItemStack(item);
-    NbtCompound itemTag = getItemTag(craftItem, false);
-    if (itemTag == null) return craftItem;
+  public static void removeCustomTag(MirrorItemStack item, String key) {
+    NbtCompound itemTag = getItemTag(item, false);
+    if (itemTag == null) return;
     itemTag.remove(key);
-    if (itemTag.isEmpty()) removeItemTag(craftItem);
-    return craftItem;
+    if (itemTag.isEmpty()) removeItemTag(item);
   }
   
   public static int getMissingStack(Inventory inventory, ItemStack missingItem) {
