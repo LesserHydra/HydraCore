@@ -9,7 +9,7 @@ import org.ajoberstar.grgit.*
 import org.apache.tools.ant.filters.ReplaceTokens
 
 group = 'com.lesserhydra'
-version = generateVersion('1.0.0')
+version = generateVersion('2.0.0')
 String pluginMain = group + '.hydracore.HydraCore'
 
 repositories {
@@ -23,6 +23,11 @@ repositories {
 dependencies {
   compile 'org.jetbrains:annotations:15.0'
   compile 'org.bukkit:craftbukkit:1.12.2-R0.1-SNAPSHOT'
+
+  testCompile 'junit:junit:4.12'
+  testCompile 'org.powermock:powermock-api-mockito:1.6.+'
+  testCompile 'org.powermock:powermock-module-junit4:1.6.+'
+  testCompile 'org.mockito:mockito-all:1.10.+'
 }
 
 task sourceJar(type: Jar) {

@@ -30,6 +30,7 @@ import com.lesserhydra.bukkitutil.nbt.NbtCompound;
 import com.lesserhydra.bukkitutil.nbt.NbtFactory;
 import com.lesserhydra.bukkitutil.nbt.NbtList;
 import com.lesserhydra.bukkitutil.nbt.NbtType;
+import com.lesserhydra.bukkitutil.volatilecode.MirrorItemStack;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
@@ -288,12 +289,12 @@ public class Attributes {
   }
   
   // This may be modified
-  public ItemStack stack;
+  public MirrorItemStack stack;
   private NbtList attributes;
   
   public Attributes(ItemStack stack) {
     // Create a CraftItemStack (under the hood)
-    this.stack = InventoryUtil.getCraftItemStack(stack);
+    this.stack = InventoryUtil.getMirrorItemStack(stack);
     loadAttributes(false);
   }
   
@@ -325,7 +326,7 @@ public class Attributes {
    *
    * @return The modified item stack.
    */
-  public ItemStack getStack() {
+  public MirrorItemStack getStack() {
     return stack;
   }
   

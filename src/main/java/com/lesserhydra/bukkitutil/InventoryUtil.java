@@ -2,6 +2,7 @@ package com.lesserhydra.bukkitutil;
 
 import com.lesserhydra.bukkitutil.nbt.NbtCompound;
 import com.lesserhydra.bukkitutil.volatilecode.InventoryUtilNMS;
+import com.lesserhydra.bukkitutil.volatilecode.MirrorItemStack;
 import com.lesserhydra.util.MapBuilder;
 import com.lesserhydra.util.SetBuilder;
 import org.bukkit.Material;
@@ -27,46 +28,46 @@ import java.util.Set;
 @SuppressWarnings({"unused", "WeakerAccess"})
 public class InventoryUtil {
   
-  public static ItemStack getCraftItemStack(@NotNull ItemStack item) {
-    return InventoryUtilNMS.getCraftItemStack(item);
+  public static MirrorItemStack getMirrorItemStack(@NotNull ItemStack item) {
+    return InventoryUtilNMS.getMirrorItemStack(item);
   }
   
-  public static NbtCompound getItemTag(ItemStack item, boolean createIfMissing) {
+  public static NbtCompound getItemTag(MirrorItemStack item, boolean createIfMissing) {
     return InventoryUtilNMS.getItemTag(item, createIfMissing);
   }
   
-  public static void setItemTag(ItemStack item, NbtCompound itemTag) {
+  public static void setItemTag(MirrorItemStack item, NbtCompound itemTag) {
     InventoryUtilNMS.setItemTag(item, itemTag);
   }
   
-  public static void removeItemTag(ItemStack item) {
+  public static void removeItemTag(MirrorItemStack item) {
     setItemTag(item, null);
   }
   
   @Nullable
-  public static String getCustomTag(ItemStack item, String key) {
+  public static String getCustomTag(MirrorItemStack item, String key) {
     NbtCompound tagCompound = getItemTag(item, false);
     return tagCompound == null ? null : tagCompound.getString(key);
   }
   
-  public static String getCustomTag(ItemStack item, String key, String def) {
+  public static String getCustomTag(MirrorItemStack item, String key, String def) {
     String result = getCustomTag(item, key);
     return result == null ? def : result;
   }
   
   public static ItemStack setCustomTag(ItemStack item, String key, String value) {
-    ItemStack craftItem = getCraftItemStack(item);
+    MirrorItemStack craftItem = getMirrorItemStack(item);
     NbtCompound itemTag = getItemTag(craftItem, true);
     itemTag.set(key, value);
     return craftItem;
   }
   
   public static ItemStack removeCustomTag(ItemStack item, String key) {
-    ItemStack craftItem = getCraftItemStack(item);
+    MirrorItemStack craftItem = getMirrorItemStack(item);
     NbtCompound itemTag = getItemTag(craftItem, false);
     if (itemTag == null) return craftItem;
     itemTag.remove(key);
-    if (itemTag.isEmpty()) removeItemTag(item);
+    if (itemTag.isEmpty()) removeItemTag(craftItem);
     return craftItem;
   }
   

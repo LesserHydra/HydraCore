@@ -20,7 +20,6 @@ import org.bukkit.craftbukkit.v1_12_R1.event.CraftEventFactory;
 import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftInventory;
 import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack;
 import org.bukkit.inventory.InventoryView;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Field;
@@ -43,14 +42,23 @@ public class InventoryUtilNMS {
   
   public static final ItemStack EMPTY_ITEM = ItemStack.a; //OBF: ItemStack.AIR;
   
-  public static CraftItemStack getCraftItemStack(org.bukkit.inventory.ItemStack item) {
-    if (item instanceof CraftItemStack) return (CraftItemStack) item;
-    return CraftItemStack.asCraftCopy(item);
+  public static MirrorItemStack getMirrorItemStack(org.bukkit.inventory.ItemStack item) {
+    return new MirrorItemStack(
+        item instanceof CraftItemStack ? (CraftItemStack) item : CraftItemStack.asCraftCopy(item)
+    );
   }
   
   @Nullable
-  public static NbtCompound getItemTag(org.bukkit.inventory.ItemStack bukkitItem, boolean createIfMissing) {
-    ItemStack item = getNmsItem(bukkitItem);
+  public static NbtCompound getItemTag(MirrorItemStack item, boolean createIfMissing) {
+    return getItemTag(item.getNmsHandle(), createIfMissing);
+  }
+  
+  public static void setItemTag(MirrorItemStack item, NbtCompound itemTag) {
+    setItemTag(item.getNmsHandle(), itemTag);
+  }
+  
+  @Nullable
+  public static NbtCompound getItemTag(ItemStack item, boolean createIfMissing) {
     NBTTagCompound itemTag = item.getTag();
     if (itemTag == null && createIfMissing) {
       itemTag = new NBTTagCompound();
@@ -59,21 +67,9 @@ public class InventoryUtilNMS {
     return itemTag == null ? null : new CraftNbtCompound(itemTag);
   }
   
-  public static void setItemTag(org.bukkit.inventory.ItemStack bukkitItem, NbtCompound itemTag) {
-    ItemStack item = getNmsItem(bukkitItem);
+  public static void setItemTag(ItemStack item, NbtCompound itemTag) {
     NBTTagCompound nmsTag = ((CraftNbtCompound)itemTag).getHandle();
     item.setTag(nmsTag);
-  }
-  
-  @NotNull
-  public static org.bukkit.inventory.ItemStack removeCustomTag(org.bukkit.inventory.ItemStack item, String key) {
-    ItemStack nmsItem = CraftItemStack.asNMSCopy(item);
-    NBTTagCompound compound = nmsItem.getTag();
-    if (compound == null) return item;
-    compound.remove(key);
-    if (compound.isEmpty()) nmsItem.setTag(null);
-    
-    return CraftItemStack.asBukkitCopy(nmsItem);
   }
   
   public static int getMissingStack(org.bukkit.inventory.Inventory inventory, org.bukkit.inventory.ItemStack missingItem) {
@@ -120,7 +116,7 @@ public class InventoryUtilNMS {
     }
     
     //Run through Bukkit PrepareItemCraftEvent
-    //TODO: Listener may assume view and player is non-null.
+    //TODO: Listener might assume view and player is non-null.
     craftingResult = CraftEventFactory.callPreCraftEvent(invCraft, craftingResult, null, false);
     resultInventory.setItem(0, craftingResult);
     
@@ -149,12 +145,10 @@ public class InventoryUtilNMS {
     return item == Items.a; //OBF: Items.AIR
   }
   
-  public static ItemStack getNmsItem(org.bukkit.inventory.ItemStack bukkitItem) {
-    if (!(bukkitItem instanceof CraftItemStack)) return CraftItemStack.asNMSCopy(bukkitItem);
-    CraftItemStack craftItem = (CraftItemStack) bukkitItem;
+  public static ItemStack getNmsItem(CraftItemStack item) {
     ItemStack handle;
     try {
-      handle = (ItemStack) CraftItemStack_handle.get(craftItem);
+      handle = (ItemStack) CraftItemStack_handle.get(item);
     } catch (IllegalAccessException e) {
       throw new RuntimeException(e);
     }
