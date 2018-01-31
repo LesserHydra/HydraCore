@@ -9,11 +9,9 @@ import com.lesserhydra.bukkitutil.nbt.NbtLong;
 import com.lesserhydra.bukkitutil.nbt.NbtShort;
 import com.lesserhydra.bukkitutil.nbt.NbtType;
 import net.minecraft.server.v1_12_R1.NBTTagByte;
-import net.minecraft.server.v1_12_R1.NBTTagByteArray;
 import net.minecraft.server.v1_12_R1.NBTTagDouble;
 import net.minecraft.server.v1_12_R1.NBTTagFloat;
 import net.minecraft.server.v1_12_R1.NBTTagInt;
-import net.minecraft.server.v1_12_R1.NBTTagIntArray;
 import net.minecraft.server.v1_12_R1.NBTTagList;
 import net.minecraft.server.v1_12_R1.NBTTagLong;
 import net.minecraft.server.v1_12_R1.NBTTagShort;
@@ -52,69 +50,116 @@ public class CraftNbtList implements NbtList {
   }
   
   @Override
-  public NbtBase add(NbtBase element) {
-    NbtBase result = element.clone();
-    handle.add(((CraftNbtBase)result).getHandle());
-    return result;
+  public NbtList add(NbtBase... elements) {
+    for (NbtBase element : elements) {
+      NbtBase result = element.clone();
+      handle.add(((CraftNbtBase) result).getHandle());
+    }
+    return this;
   }
   
   @Override
-  public NbtList add(NbtList element) {
-    NbtList result = element.clone();
-    handle.add(((CraftNbtList)result).getHandle());
-    return result;
+  public NbtList add(NbtList... elements) {
+    for (NbtList element : elements) {
+      NbtList result = element.clone();
+      handle.add(((CraftNbtList) result).getHandle());
+    }
+    return this;
   }
   
   @Override
-  public NbtCompound add(NbtCompound element) {
-    NbtCompound result = element.clone();
-    handle.add(((CraftNbtCompound)result).getHandle());
-    return result;
+  public NbtList add(NbtCompound... elements) {
+    for (NbtCompound element : elements) {
+      NbtCompound result = element.clone();
+      handle.add(((CraftNbtCompound) result).getHandle());
+    }
+    return this;
   }
   
   @Override
-  public void add(byte element) {
-    handle.add(new NBTTagByte(element));
+  public NbtList add(byte... elements) {
+    for (byte element : elements) {
+      handle.add(new NBTTagByte(element));
+    }
+    return this;
   }
   
   @Override
-  public void add(short element) {
-    handle.add(new NBTTagShort(element));
+  public NbtList add(short... elements) {
+    for (short element : elements) {
+      handle.add(new NBTTagShort(element));
+    }
+    return this;
   }
   
   @Override
-  public void add(int element) {
-    handle.add(new NBTTagInt(element));
+  public NbtList add(int... elements) {
+    for (int element : elements) {
+      handle.add(new NBTTagInt(element));
+    }
+    return this;
   }
   
   @Override
-  public void add(long element) {
-    handle.add(new NBTTagLong(element));
+  public NbtList add(long... elements) {
+    for (long element : elements) {
+      handle.add(new NBTTagLong(element));
+    }
+    return this;
   }
   
   @Override
-  public void add(float element) {
-    handle.add(new NBTTagFloat(element));
+  public NbtList add(float... elements) {
+    for (float element : elements) {
+      handle.add(new NBTTagFloat(element));
+    }
+    return this;
   }
   
   @Override
-  public void add(double element) {
-    handle.add(new NBTTagDouble(element));
+  public NbtList add(double... elements) {
+    for (double element : elements) {
+      handle.add(new NBTTagDouble(element));
+    }
+    return this;
   }
   
   @Override
-  public void add(String element) {
-    handle.add(new NBTTagString(element));
+  public NbtList add(String... elements) {
+    for (String element : elements) {
+      handle.add(new NBTTagString(element));
+    }
+    return this;
   }
   
-  @Override
-  public void add(byte[] element) {
+  /*@Override
+  public NbtList add(byte[] element) {
     handle.add(new NBTTagByteArray(element.clone()));
+    return this;
   }
   
   @Override
-  public void add(int[] element) {
+  public NbtList add(int[] element) {
     handle.add(new NBTTagIntArray(element.clone()));
+    return this;
+  }*/
+  
+  @Override
+  public NbtBase peek() {
+    assert size() > 0;
+    return get(size() - 1);
+  }
+  
+  @Override
+  public NbtList peekList() {
+    assert size() > 0;
+    return getList(size() - 1);
+  }
+  
+  @Override
+  public NbtCompound peekCompound() {
+    assert size() > 0;
+    return getCompound(size() - 1);
   }
   
   @Override

@@ -154,77 +154,93 @@ public class CraftNbtCompound implements NbtCompound {
   }
   
   @Override
-  public void set(String key, NbtBase value) {
+  public NbtCompound set(String key, NbtBase value) {
     handle.set(key, NbtFactoryNMS.unwrapTag(value));
+    return this;
   }
   
   @Override
-  public void set(String key, boolean value) {
+  public NbtCompound set(String key, boolean value) {
     handle.setBoolean(key, value);
+    return this;
   }
   
   @Override
-  public void set(String key, byte value) {
+  public NbtCompound set(String key, byte value) {
     handle.setByte(key, value);
+    return this;
   }
   
   @Override
-  public void set(String key, short value) {
+  public NbtCompound set(String key, short value) {
     handle.setShort(key, value);
+    return this;
   }
   
   @Override
-  public void set(String key, int value) {
+  public NbtCompound set(String key, int value) {
     handle.setInt(key, value);
+    return this;
   }
   
   @Override
-  public void set(String key, long value) {
+  public NbtCompound set(String key, long value) {
     handle.setLong(key, value);
+    return this;
   }
   
   @Override
-  public void set(String key, float value) {
+  public NbtCompound set(String key, float value) {
     handle.setFloat(key, value);
+    return this;
   }
   
   @Override
-  public void set(String key, double value) {
+  public NbtCompound set(String key, double value) {
     handle.setDouble(key, value);
+    return this;
   }
   
   @Override
-  public void set(String key, String value) {
+  public NbtCompound set(String key, String value) {
     handle.setString(key, value);
+    return this;
   }
   
   @Override
-  public void set(String key, byte[] value) {
+  public NbtCompound set(String key, byte[] value) {
     handle.setByteArray(key, value);
+    return this;
   }
   
   @Override
-  public void set(String key, int[] value) {
+  public NbtCompound set(String key, int[] value) {
     handle.setIntArray(key, value);
+    return this;
   }
   
   @Override
-  public void set(String key, NbtCompound value) {
+  public NbtCompound set(String key, NbtCompound value) {
     handle.set(key, ((CraftNbtCompound)value).getHandle());
+    return this;
   }
   
   @Override
-  public void set(String key, NbtList value) {
+  public NbtCompound set(String key, NbtList value) {
     handle.set(key, ((CraftNbtList)value).getHandle());
+    return this;
   }
   
   @Override
-  public void setUUID(String key, UUID value) {
+  public NbtCompound setUUID(String key, UUID value) {
     handle.a(key, value); //OBF: Line 98, setUUID()
+    return this;
   }
   
   @Override
-  public void remove(String key) {
+  public NbtCompound remove(String key) {
     handle.remove(key);
+    return this;
   }
+  
 }

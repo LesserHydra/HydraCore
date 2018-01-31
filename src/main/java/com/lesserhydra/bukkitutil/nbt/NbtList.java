@@ -5,35 +5,42 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Iterator;
 
 
+@SuppressWarnings({"WeakerAccess", "unused"})
 public interface NbtList extends NbtBase, Iterable<NbtBase> {
   
   NbtType getElementType();
   
   int size();
   
-  NbtBase add(NbtBase element);
+  NbtList add(NbtBase... element);
   
-  NbtList add(NbtList element);
+  NbtList add(NbtList... element);
   
-  NbtCompound add(NbtCompound element);
+  NbtList add(NbtCompound... element);
   
-  void add(byte element);
+  NbtList add(byte... element);
   
-  void add(short element);
+  NbtList add(short... element);
   
-  void add(int element);
+  NbtList add(int... element);
   
-  void add(long element);
+  NbtList add(long... element);
   
-  void add(float element);
+  NbtList add(float... element);
   
-  void add(double element);
+  NbtList add(double... element);
   
-  void add(String element);
+  NbtList add(String... element);
   
-  void add(byte[] element);
+  //TODO: NbtList add(byte[] element);
   
-  void add(int[] element);
+  //TODO: NbtList add(int[] element);
+  
+  NbtBase peek();
+  
+  NbtList peekList();
+  
+  NbtCompound peekCompound();
   
   NbtBase get(int index);
   

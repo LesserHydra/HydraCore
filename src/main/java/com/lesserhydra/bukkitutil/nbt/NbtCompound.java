@@ -3,6 +3,7 @@ package com.lesserhydra.bukkitutil.nbt;
 import java.util.UUID;
 
 
+@SuppressWarnings({"unused", "WeakerAccess", "UnusedReturnValue"})
 public interface NbtCompound extends NbtBase {
   
   boolean hasKey(String key);
@@ -43,35 +44,35 @@ public interface NbtCompound extends NbtBase {
   
   UUID getUUID(String key);
   
-  void set(String key, NbtBase value);
+  NbtCompound set(String key, NbtBase value);
   
-  void set(String key, boolean value);
+  NbtCompound set(String key, boolean value);
   
-  void set(String key, byte value);
+  NbtCompound set(String key, byte value);
   
-  void set(String key, short value);
+  NbtCompound set(String key, short value);
   
-  void set(String key, int value);
+  NbtCompound set(String key, int value);
   
-  void set(String key, long value);
+  NbtCompound set(String key, long value);
   
-  void set(String key, float value);
+  NbtCompound set(String key, float value);
   
-  void set(String key, double value);
+  NbtCompound set(String key, double value);
   
-  void set(String key, String value);
+  NbtCompound set(String key, String value);
   
-  void set(String key, byte[] value);
+  NbtCompound set(String key, byte[] value);
   
-  void set(String key, int[] value);
+  NbtCompound set(String key, int[] value);
   
-  void set(String key, NbtCompound value);
+  NbtCompound set(String key, NbtCompound value);
   
-  void set(String key, NbtList value);
+  NbtCompound set(String key, NbtList value);
   
-  void setUUID(String key, UUID value);
+  NbtCompound setUUID(String key, UUID value);
   
-  void remove(String key);
+  NbtCompound remove(String key);
   
   NbtCompound clone();
   
